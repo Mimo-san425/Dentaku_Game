@@ -1,1 +1,438 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>でんたく もんだい（たしざん・ひきざん）</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      margin: 0;
+      background: #ececec;
+      font-family: "Hiragino Sans", "Yu Gothic", sans-serif;
+      color: #111;
+    }
+
+    .wrap {
+      width: 100%;
+      min-height: 100vh;
+      padding: 28px 36px 40px;
+      position: relative;
+    }
+
+    .title {
+      font-size: 32px;
+      font-weight: 500;
+      margin-bottom: 30px;
+      letter-spacing: 0.08em;
+    }
+
+    .question-area {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 10px;
+      margin-bottom: 70px;
+      gap: 28px;
+      flex-wrap: wrap;
+    }
+
+    .num,
+    .op,
+    .eq {
+      font-size: 72px;
+      line-height: 1;
+      font-weight: 400;
+    }
+
+    .answer-box {
+      min-width: 180px;
+      height: 90px;
+      border-bottom: 4px solid #111;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 68px;
+      line-height: 1;
+    }
+
+    .bottom {
+      display: flex;
+      align-items: flex-start;
+      gap: 40px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+
+    .calculator {
+      display: flex;
+      align-items: flex-end;
+      gap: 26px;
+    }
+
+    .left-side {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .calc-display {
+      width: 254px;
+      height: 68px;
+      border: 3px solid #222;
+      background: #fff;
+      font-size: 42px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding: 0 14px;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .num-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 64px);
+      gap: 14px;
+    }
+
+    .btn {
+      border: 3px solid #222;
+      background: #f7f7f7;
+      color: #111;
+      border-radius: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      user-select: none;
+      font-size: 38px;
+    }
+
+    .btn:active {
+      transform: scale(0.98);
+      background: #e0e0e0;
+    }
+
+    .num-btn {
+      width: 64px;
+      height: 64px;
+    }
+
+    .zero-row {
+      margin-top: 2px;
+    }
+
+    .op-group {
+      display: flex;
+      align-items: flex-end;
+      gap: 24px;
+    }
+
+    .plus-btn {
+      width: 68px;
+      height: 166px;
+      font-size: 50px;
+    }
+
+    .right-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .small-op {
+      width: 68px;
+      height: 64px;
+      font-size: 42px;
+    }
+
+    .side-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-top: 4px;
+    }
+
+    .control-btn {
+      min-width: 160px;
+      height: 64px;
+      padding: 0 16px;
+      font-size: 28px;
+      border: 3px solid #222;
+      background: #fff;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .control-btn:active {
+      transform: scale(0.98);
+      background: #ececec;
+    }
+
+    .message {
+      min-height: 60px;
+      font-size: 36px;
+      margin-top: 8px;
+      font-weight: 600;
+    }
+
+    .ok {
+      color: #0b7a25;
+    }
+
+    .ng {
+      color: #b22222;
+    }
+
+    .hint {
+      font-size: 24px;
+      color: #444;
+      margin-top: 8px;
+    }
+
+    @media (max-width: 900px) {
+      .title {
+        font-size: 28px;
+      }
+
+      .num,
+      .op,
+      .eq {
+        font-size: 54px;
+      }
+
+      .answer-box {
+        min-width: 130px;
+        height: 72px;
+        font-size: 52px;
+      }
+
+      .question-area {
+        gap: 18px;
+        margin-bottom: 44px;
+      }
+
+      .bottom {
+        gap: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="title">もんだい</div>
+
+    <div class="question-area">
+      <div id="leftNum" class="num">8</div>
+      <div id="operatorView" class="op">＋</div>
+      <div id="rightNum" class="num">7</div>
+      <div class="eq">＝</div>
+      <div id="answerBox" class="answer-box"></div>
+    </div>
+
+    <div class="bottom">
+      <div>
+        <div class="calculator">
+          <div class="left-side">
+            <div id="calcDisplay" class="calc-display">0</div>
+
+            <div class="num-grid">
+              <button class="btn num-btn" onclick="pressNum('1')">1</button>
+              <button class="btn num-btn" onclick="pressNum('2')">2</button>
+              <button class="btn num-btn" onclick="pressNum('3')">3</button>
+
+              <button class="btn num-btn" onclick="pressNum('4')">4</button>
+              <button class="btn num-btn" onclick="pressNum('5')">5</button>
+              <button class="btn num-btn" onclick="pressNum('6')">6</button>
+
+              <button class="btn num-btn" onclick="pressNum('7')">7</button>
+              <button class="btn num-btn" onclick="pressNum('8')">8</button>
+              <button class="btn num-btn" onclick="pressNum('9')">9</button>
+            </div>
+
+            <div class="zero-row">
+              <button class="btn num-btn" onclick="pressNum('0')">0</button>
+            </div>
+          </div>
+
+          <div class="op-group">
+            <button class="btn plus-btn" onclick="pressOp('+')">＋</button>
+
+            <div class="right-stack">
+              <button class="btn small-op" onclick="pressOp('-')">−</button>
+              <button class="btn small-op" onclick="checkAnswer()">＝</button>
+            </div>
+          </div>
+        </div>
+
+        <div id="message" class="message"></div>
+        <div class="hint">でんたくで けいさんして、こたえが あっていたら せいかい</div>
+      </div>
+
+      <div class="side-buttons">
+        <button class="control-btn" onclick="clearInput()">けす</button>
+        <button class="control-btn" onclick="showCorrect()">こたえを みる</button>
+        <button class="control-btn" onclick="newQuestion()">つぎの もんだい</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // mixed = たしざん（くり上がりあり）と ひきざん を まぜる
+    const MODE = "mixed";
+
+    let left = 8;
+    let right = 7;
+    let operator = "+";
+    let correctAnswer = 15;
+    let input = "";
+
+    const leftNum = document.getElementById("leftNum");
+    const rightNum = document.getElementById("rightNum");
+    const operatorView = document.getElementById("operatorView");
+    const answerBox = document.getElementById("answerBox");
+    const calcDisplay = document.getElementById("calcDisplay");
+    const message = document.getElementById("message");
+
+    function updateDisplay() {
+      calcDisplay.textContent = input === "" ? "0" : input;
+      answerBox.textContent = input;
+    }
+
+    function pressNum(n) {
+      if (input === "0") {
+        input = n;
+      } else {
+        input += n;
+      }
+      clearMessage();
+      updateDisplay();
+    }
+
+    function pressOp(op) {
+      if (input === "") return;
+
+      const last = input.slice(-1);
+      if (["+", "-"].includes(last)) {
+        input = input.slice(0, -1) + op;
+      } else {
+        input += op;
+      }
+      clearMessage();
+      updateDisplay();
+    }
+
+    function clearInput() {
+      input = "";
+      clearMessage();
+      updateDisplay();
+    }
+
+    function calcExpression(expr) {
+      if (!/^[0-9+\-\s]+$/.test(expr)) return null;
+
+      try {
+        const value = Function("return " + expr)();
+        if (Number.isFinite(value)) return value;
+        return null;
+      } catch {
+        return null;
+      }
+    }
+
+    function checkAnswer() {
+      const result = calcExpression(input);
+
+      if (result === null) {
+        message.textContent = "しきが ちがいます";
+        message.className = "message ng";
+        return;
+      }
+
+      answerBox.textContent = result;
+
+      if (result === correctAnswer) {
+        message.textContent = "せいかい！";
+        message.className = "message ok";
+
+        setTimeout(() => {
+          newQuestion();
+        }, 1300);
+      } else {
+        message.textContent = "もういちど";
+        message.className = "message ng";
+      }
+    }
+
+    function showCorrect() {
+      answerBox.textContent = correctAnswer;
+      message.textContent = "こたえを みました";
+      message.className = "message";
+    }
+
+    function clearMessage() {
+      message.textContent = "";
+      message.className = "message";
+    }
+
+    function randomInt(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    function makeSubQuestion() {
+      // 2けた - 1けた（くり下がりが出ることあり）
+      const a = randomInt(11, 19);
+      const b = randomInt(2, 9);
+      return { left: a, right: b, operator: "-", answer: a - b };
+    }
+
+    function makeAddCarryQuestion() {
+      // 1けた + 1けた（くり上がりあり）
+      let a, b;
+      do {
+        a = randomInt(5, 9);
+        b = randomInt(5, 9);
+      } while (a + b < 10);
+      return { left: a, right: b, operator: "+", answer: a + b };
+    }
+
+    function makeMixedQuestion() {
+      return Math.random() < 0.5 ? makeAddCarryQuestion() : makeSubQuestion();
+    }
+
+    function newQuestion() {
+      let q;
+
+      if (MODE === "mixed") {
+        q = makeMixedQuestion();
+      } else {
+        q = makeAddCarryQuestion();
+      }
+
+      left = q.left;
+      right = q.right;
+      operator = q.operator;
+      correctAnswer = q.answer;
+
+      leftNum.textContent = left;
+      rightNum.textContent = right;
+      operatorView.textContent = operator === "+" ? "＋" : "−";
+
+      input = "";
+      answerBox.textContent = "";
+      calcDisplay.textContent = "0";
+      clearMessage();
+    }
+
+    updateDisplay();
+    newQuestion();
+  </script>
+</body>
+</html>
 
