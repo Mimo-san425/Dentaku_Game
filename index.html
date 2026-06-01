@@ -1,438 +1,367 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>でんたく もんだい（たしざん・ひきざん）</title>
-  <style>
-    * {
-      box-sizing: border-box;
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    body {
-      margin: 0;
-      background: #ececec;
-      font-family: "Hiragino Sans", "Yu Gothic", sans-serif;
-      color: #111;
-    }
-
-    .wrap {
-      width: 100%;
-      min-height: 100vh;
-      padding: 28px 36px 40px;
-      position: relative;
-    }
-
-    .title {
-      font-size: 32px;
-      font-weight: 500;
-      margin-bottom: 30px;
-      letter-spacing: 0.08em;
-    }
-
-    .question-area {
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin-top: 10px;
-      margin-bottom: 70px;
-      gap: 28px;
-      flex-wrap: wrap;
-    }
-
-    .num,
-    .op,
-    .eq {
-      font-size: 72px;
-      line-height: 1;
-      font-weight: 400;
-    }
-
-    .answer-box {
-      min-width: 180px;
-      height: 90px;
-      border-bottom: 4px solid #111;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 68px;
-      line-height: 1;
-    }
-
-    .bottom {
-      display: flex;
-      align-items: flex-start;
-      gap: 40px;
-      margin-top: 10px;
-      flex-wrap: wrap;
-    }
-
-    .calculator {
-      display: flex;
-      align-items: flex-end;
-      gap: 26px;
-    }
-
-    .left-side {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-
-    .calc-display {
-      width: 254px;
-      height: 68px;
-      border: 3px solid #222;
-      background: #fff;
-      font-size: 42px;
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      padding: 0 14px;
-      border-radius: 4px;
-      overflow: hidden;
-    }
-
-    .num-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 64px);
-      gap: 14px;
-    }
-
-    .btn {
-      border: 3px solid #222;
-      background: #f7f7f7;
-      color: #111;
-      border-radius: 2px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      user-select: none;
-      font-size: 38px;
-    }
-
-    .btn:active {
-      transform: scale(0.98);
-      background: #e0e0e0;
-    }
-
-    .num-btn {
-      width: 64px;
-      height: 64px;
-    }
-
-    .zero-row {
-      margin-top: 2px;
-    }
-
-    .op-group {
-      display: flex;
-      align-items: flex-end;
-      gap: 24px;
-    }
-
-    .plus-btn {
-      width: 68px;
-      height: 166px;
-      font-size: 50px;
-    }
-
-    .right-stack {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-
-    .small-op {
-      width: 68px;
-      height: 64px;
-      font-size: 42px;
-    }
-
-    .side-buttons {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-      margin-top: 4px;
-    }
-
-    .control-btn {
-      min-width: 160px;
-      height: 64px;
-      padding: 0 16px;
-      font-size: 28px;
-      border: 3px solid #222;
-      background: #fff;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-
-    .control-btn:active {
-      transform: scale(0.98);
-      background: #ececec;
-    }
-
-    .message {
-      min-height: 60px;
-      font-size: 36px;
-      margin-top: 8px;
-      font-weight: 600;
-    }
-
-    .ok {
-      color: #0b7a25;
-    }
-
-    .ng {
-      color: #b22222;
-    }
-
-    .hint {
-      font-size: 24px;
-      color: #444;
-      margin-top: 8px;
-    }
-
-    @media (max-width: 900px) {
-      .title {
-        font-size: 28px;
-      }
-
-      .num,
-      .op,
-      .eq {
-        font-size: 54px;
-      }
-
-      .answer-box {
-        min-width: 130px;
-        height: 72px;
-        font-size: 52px;
-      }
-
-      .question-area {
-        gap: 18px;
-        margin-bottom: 44px;
-      }
-
-      .bottom {
-        gap: 24px;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>でんたく もんだい</title>
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{
+  margin:0;
+  font-family:"Hiragino Sans","Yu Gothic",sans-serif;
+  background:linear-gradient(135deg,#fff3a3,#bdefff,#ffd1ea);
+  color:#111;
+  overflow-x:hidden;
+}
+.wrap{min-height:100vh;padding:24px 34px 36px;position:relative}
+.title{
+  font-size:36px;font-weight:800;color:#ff6b00;
+  text-shadow:2px 2px 0 #fff;margin-bottom:18px;
+}
+.status{
+  font-size:26px;font-weight:700;margin-bottom:14px;
+  background:#fff9;border:4px solid #fff;border-radius:18px;
+  display:inline-block;padding:8px 18px;
+}
+.question-area{
+  display:flex;justify-content:center;align-items:center;
+  gap:28px;flex-wrap:wrap;
+  background:#ffffffcc;border:6px solid #ffb703;
+  border-radius:30px;padding:34px 24px;margin-bottom:44px;
+  box-shadow:0 8px 0 #f28c28;
+}
+.num,.op,.eq{font-size:76px;line-height:1;font-weight:800}
+.num{color:#2563eb}.op{color:#e11d48}.eq{color:#16a34a}
+.answer-box{
+  min-width:200px;height:100px;border:5px solid #111;
+  background:#fffde7;border-radius:20px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:70px;font-weight:800;
+}
+.bottom{display:flex;gap:38px;flex-wrap:wrap;align-items:flex-start}
+.calculator{
+  display:flex;gap:26px;align-items:flex-end;
+  background:#ffffffcc;border:6px solid #38bdf8;
+  border-radius:28px;padding:24px;box-shadow:0 8px 0 #0284c7;
+}
+.left-side{display:flex;flex-direction:column;gap:16px}
+.calc-display{
+  width:270px;height:76px;border:4px solid #222;background:#fff;
+  font-size:44px;display:flex;align-items:center;justify-content:flex-end;
+  padding:0 16px;border-radius:16px;font-weight:800;overflow:hidden;
+}
+.num-grid{display:grid;grid-template-columns:repeat(3,74px);gap:14px}
+.btn{
+  border:3px solid #222;border-radius:18px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  font-size:42px;font-weight:800;box-shadow:0 6px 0 #777;
+}
+.btn:active,.control-btn:active{transform:translateY(5px);box-shadow:0 1px 0 #777}
+.num-btn{width:74px;height:74px;background:#fff176}
+.num-btn:nth-child(2n){background:#a7f3d0}
+.num-btn:nth-child(3n){background:#bfdbfe}
+.zero-row{margin-top:2px}
+.op-group{display:flex;gap:24px;align-items:flex-end}
+.plus-btn{width:78px;height:190px;background:#fb7185;color:#fff;font-size:54px}
+.right-stack{display:flex;flex-direction:column;gap:14px}
+.small-op{width:78px;height:74px;background:#60a5fa;color:#fff;font-size:46px}
+.small-op:last-child{background:#22c55e}
+.side-buttons{display:flex;flex-direction:column;gap:14px}
+.control-btn{
+  min-width:190px;height:74px;font-size:30px;font-weight:800;
+  border:4px solid #222;border-radius:20px;cursor:pointer;
+  box-shadow:0 6px 0 #999;
+}
+.control-btn:nth-child(1){background:#fde68a}
+.control-btn:nth-child(2){background:#fbcfe8}
+.control-btn:nth-child(3){background:#bbf7d0}
+.message{
+  min-height:70px;font-size:42px;margin-top:16px;
+  font-weight:900;text-shadow:2px 2px 0 #fff;
+}
+.ok{color:#16a34a}.ng{color:#dc2626}
+.hint{
+  font-size:25px;background:#ffffffaa;padding:10px 16px;
+  border-radius:16px;display:inline-block;color:#333;
+}
+.big-mark{
+  position:fixed;inset:0;display:none;align-items:center;justify-content:center;
+  font-size:220px;font-weight:900;color:#ef4444;
+  text-shadow:6px 6px 0 #fff;z-index:20;pointer-events:none;
+}
+.clear-screen{
+  position:fixed;inset:0;background:linear-gradient(135deg,#fff176,#86efac,#93c5fd,#f9a8d4);
+  display:none;align-items:center;justify-content:center;flex-direction:column;
+  z-index:30;text-align:center;
+}
+.clear-screen h1{font-size:70px;margin:0 0 24px;color:#ff3b30;text-shadow:4px 4px 0 #fff}
+.clear-screen p{font-size:34px;font-weight:800}
+.clear-screen button{
+  font-size:34px;font-weight:800;padding:18px 34px;border:5px solid #222;
+  border-radius:24px;background:#fff;box-shadow:0 7px 0 #777;
+}
+.sparkle{
+  position:fixed;width:18px;height:18px;border-radius:50%;
+  background:#fff;z-index:25;pointer-events:none;
+  animation:spark 900ms linear forwards;
+}
+@keyframes spark{
+  0%{transform:scale(.2);opacity:1}
+  100%{transform:translate(var(--x),var(--y)) scale(1.8);opacity:0}
+}
+@media(max-width:900px){
+  .wrap{padding:18px}
+  .title{font-size:30px}
+  .num,.op,.eq{font-size:56px}
+  .answer-box{min-width:140px;height:76px;font-size:54px}
+  .question-area{gap:18px}
+}
+</style>
 </head>
+
 <body>
-  <div class="wrap">
-    <div class="title">もんだい</div>
+<div class="wrap">
+  <div class="title">もんだい</div>
+  <div id="status" class="status">1 / 10</div>
 
-    <div class="question-area">
-      <div id="leftNum" class="num">8</div>
-      <div id="operatorView" class="op">＋</div>
-      <div id="rightNum" class="num">7</div>
-      <div class="eq">＝</div>
-      <div id="answerBox" class="answer-box"></div>
-    </div>
+  <div class="question-area">
+    <div id="leftNum" class="num">8</div>
+    <div id="operatorView" class="op">＋</div>
+    <div id="rightNum" class="num">7</div>
+    <div class="eq">＝</div>
+    <div id="answerBox" class="answer-box"></div>
+  </div>
 
-    <div class="bottom">
-      <div>
-        <div class="calculator">
-          <div class="left-side">
-            <div id="calcDisplay" class="calc-display">0</div>
-
-            <div class="num-grid">
-              <button class="btn num-btn" onclick="pressNum('1')">1</button>
-              <button class="btn num-btn" onclick="pressNum('2')">2</button>
-              <button class="btn num-btn" onclick="pressNum('3')">3</button>
-
-              <button class="btn num-btn" onclick="pressNum('4')">4</button>
-              <button class="btn num-btn" onclick="pressNum('5')">5</button>
-              <button class="btn num-btn" onclick="pressNum('6')">6</button>
-
-              <button class="btn num-btn" onclick="pressNum('7')">7</button>
-              <button class="btn num-btn" onclick="pressNum('8')">8</button>
-              <button class="btn num-btn" onclick="pressNum('9')">9</button>
-            </div>
-
-            <div class="zero-row">
-              <button class="btn num-btn" onclick="pressNum('0')">0</button>
-            </div>
+  <div class="bottom">
+    <div>
+      <div class="calculator">
+        <div class="left-side">
+          <div id="calcDisplay" class="calc-display">0</div>
+          <div class="num-grid">
+            <button class="btn num-btn" onclick="pressNum('1')">1</button>
+            <button class="btn num-btn" onclick="pressNum('2')">2</button>
+            <button class="btn num-btn" onclick="pressNum('3')">3</button>
+            <button class="btn num-btn" onclick="pressNum('4')">4</button>
+            <button class="btn num-btn" onclick="pressNum('5')">5</button>
+            <button class="btn num-btn" onclick="pressNum('6')">6</button>
+            <button class="btn num-btn" onclick="pressNum('7')">7</button>
+            <button class="btn num-btn" onclick="pressNum('8')">8</button>
+            <button class="btn num-btn" onclick="pressNum('9')">9</button>
           </div>
-
-          <div class="op-group">
-            <button class="btn plus-btn" onclick="pressOp('+')">＋</button>
-
-            <div class="right-stack">
-              <button class="btn small-op" onclick="pressOp('-')">−</button>
-              <button class="btn small-op" onclick="checkAnswer()">＝</button>
-            </div>
+          <div class="zero-row">
+            <button class="btn num-btn" onclick="pressNum('0')">0</button>
           </div>
         </div>
 
-        <div id="message" class="message"></div>
-        <div class="hint">でんたくで けいさんして、こたえが あっていたら せいかい</div>
+        <div class="op-group">
+          <button class="btn plus-btn" onclick="pressOp('+')">＋</button>
+          <div class="right-stack">
+            <button class="btn small-op" onclick="pressOp('-')">−</button>
+            <button class="btn small-op" onclick="checkAnswer()">＝</button>
+          </div>
+        </div>
       </div>
 
-      <div class="side-buttons">
-        <button class="control-btn" onclick="clearInput()">けす</button>
-        <button class="control-btn" onclick="showCorrect()">こたえを みる</button>
-        <button class="control-btn" onclick="newQuestion()">つぎの もんだい</button>
-      </div>
+      <div id="message" class="message"></div>
+      <div class="hint">でんたくで けいさんして、こたえが あっていたら せいかい</div>
+    </div>
+
+    <div class="side-buttons">
+      <button class="control-btn" onclick="clearInput()">けす</button>
+      <button class="control-btn" onclick="showCorrect()">こたえを みる</button>
+      <button class="control-btn" onclick="newQuestion()">つぎの もんだい</button>
     </div>
   </div>
+</div>
 
-  <script>
-    // mixed = たしざん（くり上がりあり）と ひきざん を まぜる
-    const MODE = "mixed";
+<div id="bigMark" class="big-mark">○</div>
 
-    let left = 8;
-    let right = 7;
-    let operator = "+";
-    let correctAnswer = 15;
-    let input = "";
+<div id="clearScreen" class="clear-screen">
+  <h1>10もん クリア！</h1>
+  <p>よく がんばりました！</p>
+  <button onclick="restartGame()">もういちど</button>
+</div>
 
-    const leftNum = document.getElementById("leftNum");
-    const rightNum = document.getElementById("rightNum");
-    const operatorView = document.getElementById("operatorView");
-    const answerBox = document.getElementById("answerBox");
-    const calcDisplay = document.getElementById("calcDisplay");
-    const message = document.getElementById("message");
+<script>
+const MODE = "mixed";
+const MAX_COUNT = 10;
 
-    function updateDisplay() {
-      calcDisplay.textContent = input === "" ? "0" : input;
-      answerBox.textContent = input;
-    }
+let left = 8;
+let right = 7;
+let operator = "+";
+let correctAnswer = 15;
+let input = "";
+let questionCount = 1;
+let locked = false;
 
-    function pressNum(n) {
-      if (input === "0") {
-        input = n;
-      } else {
-        input += n;
+const leftNum = document.getElementById("leftNum");
+const rightNum = document.getElementById("rightNum");
+const operatorView = document.getElementById("operatorView");
+const answerBox = document.getElementById("answerBox");
+const calcDisplay = document.getElementById("calcDisplay");
+const message = document.getElementById("message");
+const statusView = document.getElementById("status");
+const bigMark = document.getElementById("bigMark");
+const clearScreen = document.getElementById("clearScreen");
+
+function updateDisplay(){
+  calcDisplay.textContent = input === "" ? "0" : input;
+  answerBox.textContent = input;
+}
+
+function pressNum(n){
+  if(locked)return;
+  if(input.length > 12)return;
+  if(input === "0"){input = n;}else{input += n;}
+  clearMessage();
+  updateDisplay();
+}
+
+function pressOp(op){
+  if(locked)return;
+  if(input === "")return;
+  const last = input.slice(-1);
+  if(["+","-"].includes(last)){
+    input = input.slice(0,-1) + op;
+  }else{
+    input += op;
+  }
+  clearMessage();
+  updateDisplay();
+}
+
+function clearInput(){
+  if(locked)return;
+  input = "";
+  clearMessage();
+  updateDisplay();
+}
+
+function calcExpression(expr){
+  if(!/^[0-9+\-\s]+$/.test(expr))return null;
+  try{
+    const value = Function("return " + expr)();
+    if(Number.isFinite(value))return value;
+    return null;
+  }catch{
+    return null;
+  }
+}
+
+function checkAnswer(){
+  if(locked)return;
+  const result = calcExpression(input);
+  if(result === null){
+    message.textContent = "しきが ちがいます";
+    message.className = "message ng";
+    return;
+  }
+
+  answerBox.textContent = result;
+
+  if(result === correctAnswer){
+    locked = true;
+    message.textContent = "せいかい！";
+    message.className = "message ok";
+    showBigMaru();
+    makeSparkles();
+
+    setTimeout(()=>{
+      bigMark.style.display = "none";
+      if(questionCount >= MAX_COUNT){
+        clearScreen.style.display = "flex";
+      }else{
+        questionCount++;
+        newQuestion();
       }
-      clearMessage();
-      updateDisplay();
-    }
+      locked = false;
+    },1300);
+  }else{
+    message.textContent = "もういちど";
+    message.className = "message ng";
+  }
+}
 
-    function pressOp(op) {
-      if (input === "") return;
+function showCorrect(){
+  if(locked)return;
+  answerBox.textContent = correctAnswer;
+  message.textContent = "こたえを みました";
+  message.className = "message";
+}
 
-      const last = input.slice(-1);
-      if (["+", "-"].includes(last)) {
-        input = input.slice(0, -1) + op;
-      } else {
-        input += op;
-      }
-      clearMessage();
-      updateDisplay();
-    }
+function clearMessage(){
+  message.textContent = "";
+  message.className = "message";
+}
 
-    function clearInput() {
-      input = "";
-      clearMessage();
-      updateDisplay();
-    }
+function randomInt(min,max){
+  return Math.floor(Math.random()*(max-min+1))+min;
+}
 
-    function calcExpression(expr) {
-      if (!/^[0-9+\-\s]+$/.test(expr)) return null;
+function makeSubQuestion(){
+  const a = randomInt(11,19);
+  const b = randomInt(2,9);
+  return {left:a,right:b,operator:"-",answer:a-b};
+}
 
-      try {
-        const value = Function("return " + expr)();
-        if (Number.isFinite(value)) return value;
-        return null;
-      } catch {
-        return null;
-      }
-    }
+function makeAddCarryQuestion(){
+  let a,b;
+  do{
+    a = randomInt(5,9);
+    b = randomInt(5,9);
+  }while(a+b < 10);
+  return {left:a,right:b,operator:"+",answer:a+b};
+}
 
-    function checkAnswer() {
-      const result = calcExpression(input);
+function makeMixedQuestion(){
+  return Math.random() < 0.5 ? makeAddCarryQuestion() : makeSubQuestion();
+}
 
-      if (result === null) {
-        message.textContent = "しきが ちがいます";
-        message.className = "message ng";
-        return;
-      }
+function newQuestion(){
+  let q = MODE === "mixed" ? makeMixedQuestion() : makeAddCarryQuestion();
 
-      answerBox.textContent = result;
+  left = q.left;
+  right = q.right;
+  operator = q.operator;
+  correctAnswer = q.answer;
 
-      if (result === correctAnswer) {
-        message.textContent = "せいかい！";
-        message.className = "message ok";
+  leftNum.textContent = left;
+  rightNum.textContent = right;
+  operatorView.textContent = operator === "+" ? "＋" : "−";
+  statusView.textContent = questionCount + " / " + MAX_COUNT;
 
-        setTimeout(() => {
-          newQuestion();
-        }, 1300);
-      } else {
-        message.textContent = "もういちど";
-        message.className = "message ng";
-      }
-    }
+  input = "";
+  answerBox.textContent = "";
+  calcDisplay.textContent = "0";
+  clearMessage();
+}
 
-    function showCorrect() {
-      answerBox.textContent = correctAnswer;
-      message.textContent = "こたえを みました";
-      message.className = "message";
-    }
+function showBigMaru(){
+  bigMark.style.display = "flex";
+}
 
-    function clearMessage() {
-      message.textContent = "";
-      message.className = "message";
-    }
+function makeSparkles(){
+  for(let i=0;i<70;i++){
+    const s = document.createElement("div");
+    s.className = "sparkle";
+    s.style.left = "50%";
+    s.style.top = "50%";
+    s.style.background = ["#fff","#fde047","#f472b6","#60a5fa","#34d399"][i%5];
+    s.style.setProperty("--x",(Math.random()*900-450)+"px");
+    s.style.setProperty("--y",(Math.random()*600-300)+"px");
+    document.body.appendChild(s);
+    setTimeout(()=>s.remove(),900);
+  }
+}
 
-    function randomInt(min, max) {
-      return Math.floor(Math.random() * (max - min + 1)) + min;
-    }
+function restartGame(){
+  questionCount = 1;
+  clearScreen.style.display = "none";
+  newQuestion();
+}
 
-    function makeSubQuestion() {
-      // 2けた - 1けた（くり下がりが出ることあり）
-      const a = randomInt(11, 19);
-      const b = randomInt(2, 9);
-      return { left: a, right: b, operator: "-", answer: a - b };
-    }
-
-    function makeAddCarryQuestion() {
-      // 1けた + 1けた（くり上がりあり）
-      let a, b;
-      do {
-        a = randomInt(5, 9);
-        b = randomInt(5, 9);
-      } while (a + b < 10);
-      return { left: a, right: b, operator: "+", answer: a + b };
-    }
-
-    function makeMixedQuestion() {
-      return Math.random() < 0.5 ? makeAddCarryQuestion() : makeSubQuestion();
-    }
-
-    function newQuestion() {
-      let q;
-
-      if (MODE === "mixed") {
-        q = makeMixedQuestion();
-      } else {
-        q = makeAddCarryQuestion();
-      }
-
-      left = q.left;
-      right = q.right;
-      operator = q.operator;
-      correctAnswer = q.answer;
-
-      leftNum.textContent = left;
-      rightNum.textContent = right;
-      operatorView.textContent = operator === "+" ? "＋" : "−";
-
-      input = "";
-      answerBox.textContent = "";
-      calcDisplay.textContent = "0";
-      clearMessage();
-    }
-
-    updateDisplay();
-    newQuestion();
-  </script>
+updateDisplay();
+newQuestion();
+</script>
 </body>
 </html>
-
